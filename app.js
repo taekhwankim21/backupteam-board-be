@@ -1,27 +1,13 @@
-// const express = require("express");
-
-// const app = express();
-
-// // 기본적으로 get으로 받아야함
-// app.get("/", (req, res) => {
-//   res.send("/ 요청했음");
-// });
-
-// app.get("/host", (req, res) => {
-//   res.send("/host get 요청했음");
-// });
-
-// app.post("/host", (req, res) => {
-//   res.send("/host post 요청했음");
-// });
-
-// app.listen(3000, () => {
-//   console.log("웹 서버가 3000번 포트에서 실행되었습니다.");
-// });
-
 // api QueryString,Path Param,Header,cookie,Body api 받아오기
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
+
+app.use(express.json());
+app.use(cookieParser());
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
 // 로그인
 app.post("/login", (req, res) => {
@@ -43,9 +29,9 @@ app.post("/signup", (req, res) => {
 });
 
 //회원정보 한명 가져오기
-app.get("/finduser", (req, res) => {
-  const { userId } = req.params;
-  const { email, password, coment } = req.body;
+app.get("/finduser/?userid/:id", (req, res) => {
+  // const { userId } = req.query;
+  const { userId, email, password, coment } = req.body;
   console.log("userId", userId);
   console.log("email", email);
   console.log("password", password);
@@ -65,8 +51,8 @@ app.get("/post", (req, res) => {
 
 //선택 게시글 상세 정보 가져오기
 app.get("/post/:id", (req, res) => {
-  const { postId } = req.params;
-  const { nickname, title } = req.body;
+  // const { postId } = req.params;
+  const { postId, nickname, title } = req.body;
   console.log("postId", postId);
   console.log("nickname", nickname);
   console.log("title", title);
@@ -86,8 +72,8 @@ app.post("/post/create", (req, res) => {
 
 //게시글 수정하기
 app.patch("/post/edit", (req, res) => {
-  const { postId } = req.params;
-  const { title, coment, nickname } = req.body;
+  // const { postId } = req.params;
+  const { postId, title, coment, nickname } = req.body;
   console.log("postId", postId);
   console.log("title", title);
   console.log("coment", coment);
@@ -97,8 +83,10 @@ app.patch("/post/edit", (req, res) => {
 });
 
 //게시글 삭제하기
-app.post("/post/delete/:Id", (req, res) => {
-  const { postId } = req.params;
+app.post("/post/delete/:id", (req, res) => {
+  // const { postId } = req.params;
+  const { postId } = req.body;
+
   console.log("postId", postId);
 
   res.send("/post/delete api");
