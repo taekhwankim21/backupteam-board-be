@@ -54,7 +54,7 @@ app.get("/post", (req, res) => {
 });
 
 //선택 게시글 상세 정보 가져오기
-app.get("/post/:id", (req, res) => {
+app.get("/post/:postId", (req, res) => {
   // const { postId } = req.params;
   const { postId, nickname, title } = req.body;
   console.log("postId", postId);
@@ -75,7 +75,7 @@ app.post("/post/create", (req, res) => {
 });
 
 //게시글 수정하기
-app.patch("/post/edit", (req, res) => {
+app.patch("/post/edit/:postId", (req, res) => {
   // const { postId } = req.params;
   const { postId, title, coment, nickname } = req.body;
   console.log("postId", postId);
@@ -87,7 +87,7 @@ app.patch("/post/edit", (req, res) => {
 });
 
 //게시글 삭제하기
-app.post("/post/delete/:id", (req, res) => {
+app.post("/post/delete/:postId", (req, res) => {
   // const { postId } = req.params;
   const { postId } = req.body;
 
