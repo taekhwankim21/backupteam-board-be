@@ -165,18 +165,29 @@ app.get("/movies", (req, res) => {
     }))
   )
 })
-// 상세조회(hit_count 올리기)
-app.get("/movies/:id", (req, res) => {
-  const thisMovie = []
-  movies.hit_count = movies[movies.hit_count] + 1
-  console.log(movies.hit_count)
 
-  res.send(
-    movies.map((movie) => ({
-      ...movie,
-      name: users.find((user) => user.id === movie.user_id).name,
-    }))
-  )
+// 상세조회(hit_count 올리기)
+// 1. 사용자가 보내준 id 를 가져온다
+// 2. id 에 해당하는 movie 를 가져온다
+// 3. 가져온 movie 에서 hit_count 1을 더한 객체를 만든다
+// 4. hit_count 1을 더한 객체를 movies 내에서 기존 객체에 치환한다. (findIndex, splice 사용)
+// 5. hit_count 1을 더한 객체를 반환한다.
+
+app.get("/movies/:id", (req, res) => {
+  // 1. 사용자가 보내준 id 를 가져온다
+  const { id } = req.params
+  // 2. id 에 해당하는 movie 를 가져온다
+  const thisMovie = movies.find((movie) => movie.id === id)
+  // 3. 가져온 movie 에서 hit_count 1을 더한 객체를 만든다
+  const countHit = thisMovie.find((movie) => movie.id)
+  countHit.hit_count += 1
+  // 4. hit_count 1을 더한 객체를 movies 내에서 기존 객체에 치환한다. (findIndex, splice 사용)
+  const countPush = movies.find((movie) => movie.id === id)
+  movies.splice(countPush, 1, countHit)
+
+  console.log(movies)
+  // 5. hit_count 1을 더한 객체를 반환한다.
+  res.send(thisMovie)
 })
 // 영화등록
 app.post("/movies", (req, res) => {
