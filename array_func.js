@@ -320,12 +320,27 @@ const users = [
 
 // 4-3 Looney Tunes: Back in Action 라는 movie_title 을 가진 게시물의 작성자의 이메일을 가져온다.
 
-const [actionMovieTitleOwner] = movies
-  .map((movie) => {
-    if (movie.movie_title === "Looney Tunes: Back in Action") {
-      return movie.user_id
-    }
-  })
-  .filter((a) => a)
-const ownerEmail = users.find((user) => user.id === actionMovieTitleOwner)
-console.log(ownerEmail.email)
+// const [actionMovieTitleOwner] = movies
+//   .map((movie) => {
+//     if (movie.movie_title === "Looney Tunes: Back in Action") {
+//       return movie.user_id
+//     }
+//   })
+//   .filter((b) => b)
+// const ownerEmail = users.find((user) => user.id === actionMovieTitleOwner)
+// console.log(ownerEmail.email)
+
+// 튜터님코드
+// 1. movies 에서 movie_title "Looney Tunes: Back in Action" 인 movie 를 가져온다.
+// find
+// 2. 가져온 movie 객체에서 user_id 를 가져온다.
+
+// 3. users 에서 2번에서 가져온 id에 해당 user를 가져온다.
+// find
+// 4. 3번에서 가져온 user에서 email을 가져온다.
+
+const writer = movies.find(
+  (movie) => movie.movie_title === "Looney Tunes: Back in Action"
+).user_id
+const email = users.find((user) => user.id === writer).email
+console.log(email)
