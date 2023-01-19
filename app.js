@@ -4,9 +4,6 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const app = express()
 
-app.use(express.json())
-app.use(cookieParser())
-
 const movies = [
   {
     id: 1,
@@ -156,6 +153,9 @@ const users = [
   { id: 9, name: "Jimmy Weld", email: "jweld2j@tripadvisor.com" },
   { id: 10, name: "Kaylee Jakoubec", email: "kjakoubec2i@epa.gov" },
 ]
+app.use(express.json())
+app.use(cookieParser())
+
 // 영화제목 리스트
 app.get("/movies", (req, res) => {
   res.send(
@@ -177,17 +177,18 @@ app.get("/movies/:id", (req, res) => {
   // 1. 사용자가 보내준 id 를 가져온다
   const { id } = req.params
   // 2. id 에 해당하는 movie 를 가져온다
-  const thisMovie = movies.find((movie) => movie.id === id)
+  const thisMovie = movies.find((movie) => movie.id === Number(id))
   // 3. 가져온 movie 에서 hit_count 1을 더한 객체를 만든다
-  const countHit = thisMovie.find((movie) => movie.id)
-  countHit.hit_count += 1
-  // 4. hit_count 1을 더한 객체를 movies 내에서 기존 객체에 치환한다. (findIndex, splice 사용)
-  const countPush = movies.find((movie) => movie.id === id)
-  movies.splice(countPush, 1, countHit)
+  const movieToReplace = {
+    ...thisMovie,
+    hit_count: thisMovie.hit_count + 1,
+  }
+  // // 4. hit_count 1을 더한 객체를 movies 내에서 기존 객체에 치환한다. (findIndex, splice 사용)
+  const targetIndex = movies.findIndex((movie) => movie.id === Number(id))
+  movies.splice(targetIndex, 1, movieToReplace)
 
-  console.log(movies)
   // 5. hit_count 1을 더한 객체를 반환한다.
-  res.send(thisMovie)
+  res.send(movieToReplace)
 })
 // 영화등록
 app.post("/movies", (req, res) => {
