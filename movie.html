@@ -1,0 +1,75 @@
+<!-- 무비상세조회 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css"> -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <title>Document</title>
+</head>
+<body>
+  <h1 align="center">영화 리스트</h1>
+
+  <table border="1" width="100%" >
+    <tr align="center">
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>조회수</th>
+      <th>작성시간</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>titanic</td>
+      <td>김아무개</td>
+      <td>23</td>
+      <td>1:1:1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>돈의맛</td>
+      <td>이아무개</td>
+      <td>34</td>
+      <td>1:1:1</td>
+    </tr>
+    <tr>
+      <td>${movie.id}</td>
+      <td>${movie.movie_title}</td>
+      <td>${movie.name}</td>
+      <td>${movie.hit_count}</td>
+      <td>${movie.created_at}</td>
+    </tr>
+    
+    
+  <script>
+    // 튜터님코드
+    // fetch("http://localhost:3000/movies")
+    //   .then(res => res.json())
+    //   .then(movies => {
+
+    //     console.log("movies💛:", movies)
+    //     const html = movies.map(movie=>{
+          // return `<ul>
+          //   <li>${movie.id}</li>
+          //   <li>${movie.movie_title}</li>
+          //   <li>${movie.name}</li>
+          //   <li>${movie.hit_count}</li>
+          //   <li>${movie.created_at}</li>
+          // </ul>`
+    //     })
+    //     for(let i =0; i <= html.length; i++){
+    //     document.getElementById("movies").innerHTML = html.join('movies')
+    //     }
+    //   })
+
+    // tk 
+
+</script>
+  <!-- </table> -->
+  <a href="register.html" >영화 등록하기</a>
+</body>
+</html>

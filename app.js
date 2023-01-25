@@ -2,7 +2,10 @@
 
 const express = require("express")
 const cookieParser = require("cookie-parser")
+var cors = require("cors")
 const app = express()
+
+app.use(cors())
 
 const movies = [
   {
@@ -158,20 +161,32 @@ app.use(cookieParser())
 
 // 영화제목 리스트
 app.get("/movies", (req, res) => {
-  res.send(
-    movies.map((movie) => ({
-      ...movie,
-      name: users.find((user) => user.id === movie.user_id).name,
-    }))
-  )
+  const page = req.query.page || 1
+
+  const cloneMovies = [...movies]
+  const lastPage = Math.ceil(movies.length / 10)
+  const startIndex = (page - 1) * 10
+  const paginationMovies = cloneMovies.splice(startIndex, 10)
+
+  const moviesList = paginationMovies.map((movie) => ({
+    ...movie,
+    name: users.find((user) => user.id === movie.user_id).name,
+  }))
+  moviesList.sort((a, b) => {
+    const preTimestamp = new Date(a.created_at).getTime()
+    const curTimestamp = new Date(b.created_at).getTime()
+    return curTimestamp - preTimestamp
+  })
+
+  res.send({
+    pageInfo: {
+      lastPage,
+    },
+    movies: paginationMovies,
+  })
 })
 
 // 상세조회(hit_count 올리기)
-// 1. 사용자가 보내준 id 를 가져온다
-// 2. id 에 해당하는 movie 를 가져온다
-// 3. 가져온 movie 에서 hit_count 1을 더한 객체를 만든다
-// 4. hit_count 1을 더한 객체를 movies 내에서 기존 객체에 치환한다. (findIndex, splice 사용)
-// 5. hit_count 1을 더한 객체를 반환한다.
 
 app.get("/movies/:id", (req, res) => {
   // 1. 사용자가 보내준 id 를 가져온다
