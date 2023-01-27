@@ -1,10 +1,8 @@
-// ==================================================================================================================================================
-
-const express = require("express")
+const express = require('express')
 const cookieParser = require("cookie-parser")
-const movies = require("./src/models/movies")
-const users = require("./src/models/users")
-var cors = require("cors")
+const cors = require("cors")
+const users = require('./src/models/users')
+const getMovies = require('./src/repositories/movies')
 const app = express()
 
 app.use(cors())
@@ -12,30 +10,16 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
-function getMoviesByPage() {}
-
 // 영화제목 리스트
 app.get("/movies", (req, res) => {
-  const page = req.query.page || 1
+  const page = null
+  const movies = getMovies(page)
+  console.log(movies)
 
-  const cloneMovies = [...movies]
-  const lastPage = Math.ceil(movies.length / 10)
-  const startIndex = (page - 1) * 10
-  const paginationMovies = cloneMovies.splice(startIndex, 10)
-
-  const moviesList = paginationMovies.map((movie) => ({
-    ...movie,
-    name: users.find((user) => user.id === movie.user_id).name,
-  }))
-  moviesList.sort((a, b) => {
-    const preTimestamp = new Date(a.created_at).getTime()
-    const curTimestamp = new Date(b.created_at).getTime()
-    return curTimestamp - preTimestamp
-  })
 
   res.send({
     pageInfo: {
-      lastPage,
+      lastPage:1,
     },
     movies: paginationMovies,
     movies: moviesList,

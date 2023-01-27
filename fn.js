@@ -38,8 +38,5 @@ const priceToKrwFormat = (price, country) => {
   }
 }
 
-const price = 100000
+const price = 100000000
 console.log(priceToKrwFormat(price))
-console.log(priceToKrwFormat(25000))
-console.log(priceToKrwFormat(1000))
-console.log(priceToKrwFormat(700000))
